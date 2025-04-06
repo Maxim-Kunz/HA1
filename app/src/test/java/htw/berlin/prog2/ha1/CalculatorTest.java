@@ -25,7 +25,7 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
-    @TestA
+    @Test
     @DisplayName("should display result after getting the square root of two")
     void testSquareRoot() {
         Calculator calc = new Calculator();
