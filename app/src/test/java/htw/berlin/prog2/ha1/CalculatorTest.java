@@ -90,6 +90,8 @@ class CalculatorTest {
 
 
     //TODO hier weitere Tests erstellen
+
+    // Teilaufgabe 1
     @Test
     @DisplayName("should display the multiplication product")
     void testMultiplication() {
@@ -106,5 +108,22 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
-}
 
+    // Teilufgabe 2
+    @Test
+    @DisplayName("should continue applying the operator when pressing the EqualsKey")
+    void testEqualsKey() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(3);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(2);
+        calc.pressEqualsKey();
+
+        calc.pressEqualsKey();
+        String expected = "5";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+}
