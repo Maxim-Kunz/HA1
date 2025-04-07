@@ -95,6 +95,7 @@ class CalculatorTest {
     void testPositiveMultiplication() {
         Calculator calc = new Calculator();
 
+        // 5 x 4 = 20
         calc.pressDigitKey(5);
         calc.pressBinaryOperationKey("x");
         calc.pressDigitKey(4);
@@ -106,5 +107,46 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    @DisplayName("sollte die letzte Operation wiederholen, wenn man öfter auf ´=´ drückt")
+    void testRepeatedEquals() {
+        Calculator calc = new Calculator();
+
+        //  2 + 3 = 5
+        calc.pressDigitKey(2);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(3);
+        calc.pressEqualsKey(); // Erwartetes Ergebnis: 5
+
+        calc.pressEqualsKey(); // Erwartetes Ergebnis: 8
+        calc.pressEqualsKey(); // Erwartetes Ergebnis: 11
+
+
+        String expected = "11"; //was erwartet wird
+        String actual = calc.readScreen(); //was tatsächlich ausgegeben wird
+
+        assertEquals(expected, actual); // Der Bildschirm sollte 11 anzeigen
+    }
+
+    @Test
+    @DisplayName("sollte die Ergebnisse auch in Dezimal ausgeben können")
+    void testDecimalMultiplication() {
+        Calculator calc = new Calculator();
+
+        //(1 wird eingegeben) . (5 wird eingegeben) = 1.5 x 2 = 3.0 <- soll ausgegeben werden
+        calc.pressDigitKey(1);
+        calc.pressDotKey();
+        calc.pressDigitKey(5); // 1.5
+
+        calc.pressBinaryOperationKey("x");
+
+        calc.pressDigitKey(2);
+        calc.pressEqualsKey();
+
+        String expected = "3.0"; // 1.5 x 2 = 3.0
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
 }
 
