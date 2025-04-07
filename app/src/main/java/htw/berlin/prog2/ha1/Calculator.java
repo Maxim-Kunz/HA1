@@ -31,6 +31,13 @@ public class Calculator {
     public void pressDigitKey(int digit) {
         if(digit > 9 || digit < 0) throw new IllegalArgumentException();
 
+        // Entfernung "-" & "." und Länge in digitCount speichern
+        int digitCount = screen.replace("-", "")
+                .replace(".", "")
+                .length();
+
+        if (digitCount >= 10) return; // Methode beenden bei >10 Digits
+
         if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
 
         screen = screen + digit;
