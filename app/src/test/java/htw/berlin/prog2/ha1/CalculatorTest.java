@@ -88,7 +88,75 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    @DisplayName("should correctly calculate percentage by dividing number by 100")
+    void testPercentageDividingBy100(){
+        Calculator calc = new Calculator();
 
-    //TODO hier weitere Tests erstellen
+        calc.pressDigitKey(6);
+        calc.pressUnaryOperationKey("%");
+
+        String expected = "0.06";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+
+    }
+
+    @Test
+    @DisplayName("Display should show the correct result when dividing decimal numbers")
+    void testDividedByDecimalNumber(){
+        Calculator calc = new Calculator();
+        calc.pressDigitKey(4);
+        calc.pressDotKey();
+        calc.pressDigitKey(5);
+        calc.pressBinaryOperationKey("/");
+        calc.pressDigitKey(2);
+        calc.pressEqualsKey();
+
+        String expected = "2.25";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+
+    }
+
+    @Test
+    @DisplayName("should display show the correct result of multipication between 2 negative numbers")
+    void testNegativeMultiplication(){
+        Calculator calc = new Calculator();
+
+        calc.pressNegativeKey();
+        calc.pressDigitKey(4);
+        calc.pressBinaryOperationKey("x");
+        calc.pressNegativeKey();
+        calc.pressDigitKey(6);
+        calc.pressEqualsKey();
+
+        String expected = "24";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+
+    }
+
+    @Test
+    @DisplayName("should display error when calculating the inverse of 0")
+    void testInversion(){
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(0);
+        calc.pressUnaryOperationKey("1/x");
+
+        String expected = "Error";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+
+    }
+
+
+
+
 }
 

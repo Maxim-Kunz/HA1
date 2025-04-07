@@ -18,6 +18,7 @@ public class Calculator {
      * @return den aktuellen Bildschirminhalt als String
      */
     public String readScreen() {
+
         return screen;
     }
 
