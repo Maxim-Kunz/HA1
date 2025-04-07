@@ -75,15 +75,17 @@ public class Calculator {
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
         var result = switch(operation) {
-            case "√" -> Math.sqrt(Double.parseDouble(screen));
-            case "%" -> Double.parseDouble(screen) / 100;
-            case "1/x" -> 1 / Double.parseDouble(screen);
+            case "√" -> Math.sqrt(latestValue);
+            case "%" -> latestValue / 100;
+            case "1/x" -> {
+                if (latestValue == 0) yield Double.NaN;  // Fix 1: Überprüfung auf Null
+                else yield 1 / latestValue;
+            }
             default -> throw new IllegalArgumentException();
         };
         screen = Double.toString(result);
-        if(screen.equals("NaN")) screen = "Error";
-        if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
-
+        if (screen.equals("NaN")) screen = "Error";
+        if (screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
     }
 
     /**
@@ -117,17 +119,34 @@ public class Calculator {
      * Operation (ggf. inklusive letztem Operand) erneut auf den aktuellen Bildschirminhalt angewandt
      * und das Ergebnis direkt angezeigt.
      */
+    // Fix 2: Neues Feld für den zuletzt eingegebenen Operanden
+    private double lastOperand = 0;
     public void pressEqualsKey() {
-        var result = switch(latestOperation) {
-            case "+" -> latestValue + Double.parseDouble(screen);
-            case "-" -> latestValue - Double.parseDouble(screen);
-            case "x" -> latestValue * Double.parseDouble(screen);
-            case "/" -> latestValue / Double.parseDouble(screen);
+        double result;
+        double currentValue = Double.parseDouble(screen);
+
+        // Fix 2: Wenn die Gleich-Taste zum ersten Mal gedrückt wird, speichern wir den aktuellen Operanden
+        if (!latestOperation.isEmpty() && lastOperand == 0) {
+            lastOperand = currentValue;
+        }
+
+        result = switch (latestOperation) {
+            case "+" -> latestValue + lastOperand; // Fix 2: Verwende lastOperand anstelle von currentValue
+            case "-" -> latestValue - lastOperand; // Fix 2: Verwende lastOperand anstelle von currentValue
+            case "x" -> latestValue * lastOperand; // Fix 2: Verwende lastOperand anstelle von currentValue
+            case "/" -> {
+                // Fix 2: Behandlung der Division durch Null
+                if (lastOperand == 0) yield Double.POSITIVE_INFINITY;
+                else yield latestValue / lastOperand;
+            }
             default -> throw new IllegalArgumentException();
         };
+
         screen = Double.toString(result);
-        if(screen.equals("Infinity")) screen = "Error";
-        if(screen.endsWith(".0")) screen = screen.substring(0,screen.length()-2);
-        if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
+        latestValue = result;  // Fix 2: Das Ergebnis wird zur neuen Basis für zukünftige Berechnungen
+
+        if (screen.equals("Infinity")) screen = "Error";
+        if (screen.endsWith(".0")) screen = screen.substring(0, screen.length() - 2);
+        if (screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
     }
 }
