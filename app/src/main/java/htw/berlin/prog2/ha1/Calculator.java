@@ -75,15 +75,17 @@ public class Calculator {
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
         var result = switch(operation) {
-            case "√" -> Math.sqrt(Double.parseDouble(screen));
-            case "%" -> Double.parseDouble(screen) / 100;
-            case "1/x" -> 1 / Double.parseDouble(screen);
+            case "√" -> Math.sqrt(latestValue);
+            case "%" -> latestValue / 100;
+            case "1/x" -> {
+                if (latestValue == 0) yield Double.NaN;  // Fix 1: Überprüfung auf Null
+                else yield 1 / latestValue;
+            }
             default -> throw new IllegalArgumentException();
         };
         screen = Double.toString(result);
-        if(screen.equals("NaN")) screen = "Error";
-        if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
-
+        if (screen.equals("NaN")) screen = "Error";
+        if (screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
     }
 
     /**
