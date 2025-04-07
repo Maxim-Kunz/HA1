@@ -31,10 +31,10 @@ public class Calculator {
     public void pressDigitKey(int digit) {
         if(digit > 9 || digit < 0) throw new IllegalArgumentException();
 
-        if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
-
+        if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = ""; //wenn Screen = "0" -> nicht eingegeben /  Wenn der letzte Wert = dem Wert auf dem Bildschrim -> zurücksetzen des Bildschirm
         screen = screen + digit;
     }
+
 
     /**
      * Empfängt den Befehl der C- bzw. CE-Taste (Clear bzw. Clear Entry).
@@ -49,6 +49,7 @@ public class Calculator {
         latestOperation = "";
         latestValue = 0.0;
     }
+    //Abweichung: Zweimaliges Drücken hat keinen besonderen Effekt
 
     /**
      * Empfängt den Wert einer gedrückten binären Operationstaste, also eine der vier Operationen
@@ -60,9 +61,14 @@ public class Calculator {
      * @param operation "+" für Addition, "-" für Substraktion, "x" für Multiplikation, "/" für Division
      */
     public void pressBinaryOperationKey(String operation)  {
-        latestValue = Double.parseDouble(screen);
+        latestValue = Double.parseDouble(screen); //Double.parseDouble() konvertiert String in Double
         latestOperation = operation;
-    }
+    }//Der Screen verändert sich nicht / Beim ersten drücken ändert sich die Operation /
+    //Reihenfolge: Zahl Operation Zahl -> es wird nur die letzte Zahl ausgegeben
+    //Division funktioniert nicht -> kein Error
+
+
+
 
     /**
      * Empfängt den Wert einer gedrückten unären Operationstaste, also eine der drei Operationen
@@ -83,6 +89,7 @@ public class Calculator {
         screen = Double.toString(result);
         if(screen.equals("NaN")) screen = "Error";
         if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
+        //Funktioniert alles aus dem Javadoc
 
     }
 
@@ -96,6 +103,7 @@ public class Calculator {
     public void pressDotKey() {
         if(!screen.contains(".")) screen = screen + ".";
     }
+    //Ziffern werden rechts angegeben / kein doppel . möglich -> Funktioniert
 
     /**
      * Empfängt den Befehl der gedrückten Vorzeichenumkehrstaste ("+/-").
@@ -107,6 +115,8 @@ public class Calculator {
     public void pressNegativeKey() {
         screen = screen.startsWith("-") ? screen.substring(1) : "-" + screen;
     }
+    //negativ wird positiv und positiv wird negativ -> Funktioniert
+    // Zahl wird als negative Zahl behandelt -> Funktioniert
 
     /**
      * Empfängt den Befehl der gedrückten "="-Taste.
@@ -129,5 +139,112 @@ public class Calculator {
         if(screen.equals("Infinity")) screen = "Error";
         if(screen.endsWith(".0")) screen = screen.substring(0,screen.length()-2);
         if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
+
+    }
+    //Multiplizieren -> BSP: 5*2 -> erneutes Ausführen =  jedes Mal *5 / Letzter Operand wird nicht angezeigt
+    //Div 0 = Error
+    //Ohne Opertaor -> Illegal Arguments Exception
+
+    public static void main(String[] args){
+        Calculator a = new Calculator(); //damit man die Methoden benutzen kann. Nicht statische Methoden nur über Instanz aufrufen -> hier "a"
+        a.readScreen();
+        a.pressDigitKey(1);
+        a.pressDigitKey(8); // Zahl 1 plus Zahl 2 funktioniert
+        //a.pressDigitKey(-5);
+        //a.pressDigitKey(99); -> Exception funktioniert
+        System.out.println(a.readScreen());
+        //a.latestValue = 5; Test, ob Clear funktioniert
+        a.pressClearKey();
+        //a.pressClearKey();
+        System.out.println(a.readScreen());
+        System.out.println(a.latestOperation);
+        System.out.println(a.latestValue); //Urpsrungszustand, allerdings wurde die Variable vorher nie geändert
+
+
+        //Test Binaryopertation
+        a.pressDigitKey(8);
+        a.pressBinaryOperationKey("+");
+        a.pressDigitKey(3);
+        System.out.println(a.readScreen());
+        System.out.println(a.latestOperation); //nur letzte Zahl wird ausgegeben
+
+        //Test Unary Opertator
+        a.pressClearKey();
+        a.pressDigitKey(5);
+        a.pressDigitKey(5);
+        //a.pressNegativeKey(); Zahl wird wirklich negativ da keine Wurzel möglich
+        System.out.println(a.readScreen());
+        System.out.println("Wurzel: " + "\n");
+        a.pressUnaryOperationKey("√");
+        System.out.println(a.readScreen());
+        a.pressClearKey();
+        a.pressDigitKey(8);
+        a.pressDigitKey(6);
+        System.out.println("Prozent: " + "\n");
+        a.pressUnaryOperationKey("%");
+        System.out.println(a.readScreen());
+        System.out.println("Inverse");
+        a.pressClearKey();
+        a.pressDigitKey(8);
+        a.pressDigitKey(6);
+        a.pressUnaryOperationKey("1/x");
+        System.out.println(a.readScreen());
+        //a.pressUnaryOperationKey("ww"); -> Exception funktioniert
+
+
+        //Test Trennzeichen
+        a.pressClearKey();
+        a.pressDigitKey(5);
+        a.pressDotKey();
+        System.out.println(a.readScreen());
+        a.pressDotKey();
+        System.out.println(a.readScreen());
+        a.pressDigitKey(7);
+        System.out.println(a.readScreen());
+
+        //Test negative
+        a.pressNegativeKey();
+        System.out.println(a.readScreen());
+        a.pressNegativeKey();
+        System.out.println(a.readScreen());
+
+
+
+        //Test =
+        a.pressClearKey();
+        a.pressDigitKey(5);
+        a.pressBinaryOperationKey("+");
+        a.pressDigitKey(2);
+        a.pressEqualsKey();
+        System.out.println(a.readScreen());
+
+        /*Test /0
+        a.pressClearKey();
+        a.pressDigitKey(5);
+        a.pressBinaryOperationKey("/");
+        a.pressDigitKey(0);
+        a.pressEqualsKey();
+        System.out.println(a.readScreen());
+        */
+
+        //Test erneutes drücken
+        a.pressClearKey();
+        a.pressDigitKey(5);
+        a.pressBinaryOperationKey("x");
+        a.pressDigitKey(2);
+        System.out.println(a.readScreen());
+        a.pressEqualsKey();
+        System.out.println(a.readScreen());
+        a.pressEqualsKey();
+        System.out.println(a.readScreen());
+        a.pressEqualsKey();
+        System.out.println(a.readScreen());
+
+        //Test ohne operation
+        a.pressClearKey();
+        a.pressDigitKey(5);
+        a.pressDigitKey(2);
+        //a.pressEqualsKey(); -> Illegal Arguments Exception
     }
 }
+

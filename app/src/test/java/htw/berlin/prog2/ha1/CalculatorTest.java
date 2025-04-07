@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DisplayName("Retro calculator")
 class CalculatorTest {
 
+
+
     @Test
     @DisplayName("should display result after adding two positive multi-digit numbers")
     void testPositiveAddition() {
@@ -25,6 +27,12 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
+    /*
+     * Testet das addieren von 20 + 20
+     */
+
+
+
 
     @Test
     @DisplayName("should display result after getting the square root of two")
@@ -39,6 +47,10 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
+    //Testet die Wurzel von 2
+
+
+
 
     @Test
     @DisplayName("should display error when dividing by zero")
@@ -55,6 +67,10 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
+    //Testet, ob "Error" angezeigt wird bei Div durch 0
+
+
+
 
     @Test
     @DisplayName("should display error when drawing the square root of a negative number")
@@ -70,6 +86,10 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
+    //Testet, ob "Error" angezeigt wird bei Wurzel von neg. Zahl
+
+
+
 
     @Test
     @DisplayName("should not allow multiple decimal dots")
@@ -87,8 +107,21 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
+    //Erlaubt nicht mehr als 1 Dezimalzeichen "."
 
 
     //TODO hier weitere Tests erstellen
-}
+    //Testet, ob bei Clear Bildschirm zurückgesetzt wird
+    @Test
+    @DisplayName("Screen sollte zurückgesetzt werden")
+    void testClearScreen(){
+        Calculator calc = new Calculator();
 
+        calc.pressClearKey();
+        String expected = "0";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+}
