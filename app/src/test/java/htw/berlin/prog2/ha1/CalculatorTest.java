@@ -120,5 +120,23 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    @DisplayName("should repeat the last operation when equals key is pressed multiple times")
+    void testRepeatedEqualsKey() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(2);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(3);
+        calc.pressEqualsKey();  // Erste Addition: 2 + 3 = 5
+        calc.pressEqualsKey();  // Zweite Addition: 5 + 3 = 8
+        calc.pressEqualsKey();  // Dritte Addition: 8 + 3 = 11
+
+        String expected = "11";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
 }
 
