@@ -121,7 +121,6 @@ class CalculatorTest {
         calc.pressEqualsKey(); // Erwartetes Ergebnis: 8
         calc.pressEqualsKey(); // Erwartetes Ergebnis: 11
 
-
         String expected = "11"; //was erwartet wird
         String actual = calc.readScreen(); //was tatsächlich ausgegeben wird
 
@@ -129,21 +128,21 @@ class CalculatorTest {
     }
 
     @Test
-    @DisplayName("sollte die Ergebnisse auch in Dezimal ausgeben können")
+    @DisplayName("gibt die Ergebnisse nun auch in Dezimalzahlen aus")
     void testDecimalMultiplication() {
         Calculator calc = new Calculator();
 
         //(1 wird eingegeben) . (5 wird eingegeben) = 1.5 x 2 = 3.0 <- soll ausgegeben werden
         calc.pressDigitKey(1);
         calc.pressDotKey();
-        calc.pressDigitKey(5); // 1.5
+        calc.pressDigitKey(5); // 1.6
 
         calc.pressBinaryOperationKey("x");
 
         calc.pressDigitKey(2);
         calc.pressEqualsKey();
 
-        String expected = "3.0"; // 1.5 x 2 = 3.0
+        String expected = "3"; // 1.5 x 2 = 3
         String actual = calc.readScreen();
 
         assertEquals(expected, actual);
