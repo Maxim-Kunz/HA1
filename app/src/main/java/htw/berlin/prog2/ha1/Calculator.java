@@ -9,10 +9,11 @@ package htw.berlin.prog2.ha1;
 public class Calculator {
 
     private String screen = "0";
-
     private double latestValue;
-
     private String latestOperation = "";
+
+    private double lastOperand; //Operand für ein wiederholtes "="
+    private boolean repeatEquals = false;  // Status für das wiederholte Gleich-Zeichen
 
     /**
      * @return den aktuellen Bildschirminhalt als String
@@ -43,11 +44,14 @@ public class Calculator {
      * Wird daraufhin noch einmal die Taste gedrückt, dann werden auch zwischengespeicherte
      * Werte sowie der aktuelle Operationsmodus zurückgesetzt, so dass der Rechner wieder
      * im Ursprungszustand ist.
+     * es wurden zwei neue Variablen angelegt die für die Speicherung später eingegebener Zahlen zuständig sind
      */
     public void pressClearKey() {
         screen = "0";
         latestOperation = "";
         latestValue = 0.0;
+        lastOperand = 0.0;
+        repeatEquals = false;
     }
 
     /**
@@ -58,10 +62,12 @@ public class Calculator {
      * Beim zweiten Drücken nach Eingabe einer weiteren Zahl wird direkt des aktuelle Zwischenergebnis
      * auf dem Bildschirm angezeigt. Falls hierbei eine Division durch Null auftritt, wird "Error" angezeigt.
      * @param operation "+" für Addition, "-" für Substraktion, "x" für Multiplikation, "/" für Division
+     * repeatEquals wird nur dann benutzt wenn die Gleich-Taste mehrmals getätigt wurde
      */
     public void pressBinaryOperationKey(String operation)  {
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
+        repeatEquals = false;
     }
 
     /**
@@ -80,9 +86,11 @@ public class Calculator {
             case "1/x" -> 1 / Double.parseDouble(screen);
             default -> throw new IllegalArgumentException();
         };
+
         screen = Double.toString(result);
         if(screen.equals("NaN")) screen = "Error";
         if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
+        repeatEquals = false;
 
     }
 
@@ -116,18 +124,36 @@ public class Calculator {
      * Wird die Taste weitere Male gedrückt (ohne andere Tasten dazwischen), so wird die letzte
      * Operation (ggf. inklusive letztem Operand) erneut auf den aktuellen Bildschirminhalt angewandt
      * und das Ergebnis direkt angezeigt.
+     * wenn repeatEquals eintritt, wird der zuletzt gedrückte Operand gespeichert und bei jedem "=" für die Rechenoperation verwendet
      */
     public void pressEqualsKey() {
+        double currentValue = Double.parseDouble(screen);
+
+        if (!repeatEquals) {
+            lastOperand = currentValue; // speichere erstmalig den zweiten Operand
+        } else {
+            latestValue = Double.parseDouble(screen); // aktuelles Ergebnis als Ausgang für weitere Operationen
+            currentValue = lastOperand; // nutzt den gespeicherten Operand
+        }
         var result = switch(latestOperation) {
-            case "+" -> latestValue + Double.parseDouble(screen);
-            case "-" -> latestValue - Double.parseDouble(screen);
-            case "x" -> latestValue * Double.parseDouble(screen);
-            case "/" -> latestValue / Double.parseDouble(screen);
+            case "+" -> latestValue + currentValue;
+            case "-" -> latestValue - currentValue;
+            case "x" -> latestValue * currentValue;
+            case "/" -> latestValue / currentValue;
             default -> throw new IllegalArgumentException();
         };
+
         screen = Double.toString(result);
-        if(screen.equals("Infinity")) screen = "Error";
-        if(screen.endsWith(".0")) screen = screen.substring(0,screen.length()-2);
-        if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
+
+
+        if(screen.equals("Infinity") || screen.equals("NaN")) {
+            screen = "Error";
+        } else if (screen.endsWith(".0")) { //wird entfernt, wenn es sinnvoll für den Testfall ist
+            screen = screen.substring(0, screen.length() -2);
+        } else if (screen.contains(".")) {
+            //Die Dezimal soll genau so bleiben wie sie ausgegeben wird
+        }
+
+        repeatEquals = true; // eine wiederholte Gleich-Taste wird erkannt und richtig hinzuaddiert
     }
 }
