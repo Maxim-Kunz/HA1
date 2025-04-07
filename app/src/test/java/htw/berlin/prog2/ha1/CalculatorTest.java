@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Retro calculator")
 class CalculatorTest {
@@ -106,6 +107,27 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+
+    @Test
+    @DisplayName("should not be able to input more than 10 digits")
+    void testInputLengthOfTenDigits() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(1);
+        calc.pressDigitKey(2);
+        calc.pressDigitKey(3);
+        calc.pressDigitKey(4);
+        calc.pressDigitKey(5);
+        calc.pressDigitKey(6);
+        calc.pressDigitKey(7);
+        calc.pressDigitKey(8);
+        calc.pressDigitKey(9);
+        calc.pressDigitKey(0);
+        calc.pressDigitKey(1);
+        calc.pressDigitKey(2);
+
+        assertTrue(calc.readScreen().length() <= 10);
+    }
     //TODO hier weitere Tests erstellen
 }
 
