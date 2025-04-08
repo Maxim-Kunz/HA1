@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Retro calculator")
 class CalculatorTest {
@@ -88,7 +89,61 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    @DisplayName("should display positive result after multiplying two negative digits")
+    void testMultiplyingNegativeDigits() {
+        Calculator calc = new Calculator();
 
-    //TODO hier weitere Tests erstellen
+        calc.pressDigitKey(2);
+        calc.pressNegativeKey();
+        calc.pressBinaryOperationKey("x");
+        calc.pressDigitKey(3);
+        calc.pressNegativeKey();
+        calc.pressEqualsKey();
+
+        String expected = "6";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("should not be able to input more than 10 digits")
+    void testInputLengthOfTenDigits() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(1);
+        calc.pressDigitKey(2);
+        calc.pressDigitKey(3);
+        calc.pressDigitKey(4);
+        calc.pressDigitKey(5);
+        calc.pressDigitKey(6);
+        calc.pressDigitKey(7);
+        calc.pressDigitKey(8);
+        calc.pressDigitKey(9);
+        calc.pressDigitKey(0);
+        calc.pressDigitKey(1);
+        calc.pressDigitKey(2);
+
+        assertTrue(calc.readScreen().length() <= 10);
+    }
+
+    @Test
+    @DisplayName("should only set screen to 0 when pressClearKey() is pressed once")
+    void testPressClearKeyOnce() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(4);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(2);
+        calc.pressClearKey();
+        calc.pressEqualsKey();
+
+        String expected = "4";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+
+    }
 }
 
