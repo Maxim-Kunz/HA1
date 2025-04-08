@@ -98,7 +98,7 @@ class CalculatorTest {
         calc.pressNegativeKey();
         calc.pressNegativeKey();
 
-        String expected="5";
+        String expected="7";
         String actual = calc.readScreen();
 
         assertEquals(expected, actual);
