@@ -14,6 +14,18 @@ public class Calculator {
 
     private String latestOperation = "";
 
+/*
+    //Getter & Setter für Test
+    public double getLatestValue(){
+        return this.latestValue;
+    }
+
+    public void setLatestValue(double newLatestValue){
+        this.latestValue = newLatestValue;
+    }
+*/
+
+
     /**
      * @return den aktuellen Bildschirminhalt als String
      */
@@ -65,7 +77,6 @@ public class Calculator {
         latestOperation = operation;
     }//Der Screen verändert sich nicht / Beim ersten drücken ändert sich die Operation /
     //Reihenfolge: Zahl Operation Zahl -> es wird nur die letzte Zahl ausgegeben
-    //Division funktioniert nicht -> kein Error
 
 
 
@@ -162,11 +173,17 @@ public class Calculator {
 
 
         //Test Binaryopertation
+        System.out.println("Binary Operator Test\n");
         a.pressDigitKey(8);
         a.pressBinaryOperationKey("+");
         a.pressDigitKey(3);
+        a.pressBinaryOperationKey("-");
         System.out.println(a.readScreen());
-        System.out.println(a.latestOperation); //nur letzte Zahl wird ausgegeben
+        //System.out.println(a.latestOperation);
+        System.out.println("\n");
+
+
+
 
         //Test Unary Opertator
         a.pressClearKey();

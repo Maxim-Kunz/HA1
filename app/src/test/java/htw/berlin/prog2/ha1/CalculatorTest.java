@@ -124,4 +124,47 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+
+
+
+    //Rote Tests:
+    //Idee: Zweites Drücken Binary
+    //Idee: Clear 1x drücken soll lastvalue und lastoperation NICHT zurücksetzen -> tut es aber
+
+    @Test
+    @DisplayName("Beim Zweiten Drücken der Taste sollte das aktuelle Zwischenergebnis direkt angezeigt werden")
+    void testBinary(){
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(5);
+        calc.pressBinaryOperationKey("-");
+        calc.pressDigitKey(3);
+        calc.pressBinaryOperationKey("-");
+
+
+        String expected = "2";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+/*
+    @Test
+    @DisplayName("Zwischengespeicherte Werte sollten NICHT zurückgesetzt werden nach dem ersten Drücken")
+    void testClearScreen2(){
+        Calculator calc = new Calculator();
+
+        calc.setLatestValue(3.0);
+
+        calc.pressClearKey();
+        double expected = 3.0;
+        double actual = calc.getLatestValue();
+
+        assertEquals(expected, actual);
+    }
+
+*/
+
+
+
 }
