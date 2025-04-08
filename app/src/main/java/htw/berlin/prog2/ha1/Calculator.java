@@ -14,7 +14,7 @@ public class Calculator {
 
     private String latestOperation = "";
 
-/*
+
     //Getter & Setter für Test
     public double getLatestValue(){
         return this.latestValue;
@@ -23,7 +23,7 @@ public class Calculator {
     public void setLatestValue(double newLatestValue){
         this.latestValue = newLatestValue;
     }
-*/
+
 
 
     /**

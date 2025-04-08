@@ -148,7 +148,7 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
-/*
+
     @Test
     @DisplayName("Zwischengespeicherte Werte sollten NICHT zurückgesetzt werden nach dem ersten Drücken")
     void testClearScreen2(){
@@ -163,7 +163,7 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
-*/
+
 
 
 
