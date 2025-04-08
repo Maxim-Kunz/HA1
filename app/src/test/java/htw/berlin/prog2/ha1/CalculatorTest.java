@@ -107,7 +107,6 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
-
     @Test
     @DisplayName("should not be able to input more than 10 digits")
     void testInputLengthOfTenDigits() {
@@ -128,6 +127,23 @@ class CalculatorTest {
 
         assertTrue(calc.readScreen().length() <= 10);
     }
-    //TODO hier weitere Tests erstellen
+
+    @Test
+    @DisplayName("should only set screen to 0 when pressClearKey() is pressed once")
+    void testPressClearKeyOnce() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(4);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(2);
+        calc.pressClearKey();
+        calc.pressEqualsKey();
+
+        String expected = "4";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+
+    }
 }
 
