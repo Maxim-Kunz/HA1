@@ -73,7 +73,7 @@ class CalculatorTest {
 
     @Test
     @DisplayName("should not allow multiple decimal dots")
-    void testMultipleDecimalDots() {
+    void testSubtractOfPositive() {
         Calculator calc = new Calculator();
 
         calc.pressDigitKey(1);
@@ -90,5 +90,23 @@ class CalculatorTest {
 
 
     //TODO hier weitere Tests erstellen
+
+    @Test
+    @DisplayName("should display result after subtracting two negative single-digit numbers")
+    void testNegativeSubtraction() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(7);
+        calc.pressNegativeKey();
+        calc.pressBinaryOperationKey("-");
+        calc.pressDigitKey(5);
+        calc.pressNegativeKey();
+        calc.pressEqualsKey();
+
+        String expected = "-2";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
 }
 
