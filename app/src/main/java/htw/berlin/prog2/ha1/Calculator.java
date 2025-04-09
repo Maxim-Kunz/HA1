@@ -14,7 +14,9 @@ public class Calculator {
 
     private String latestOperation = "";
 
-    /**
+    private boolean clearEntry = true;
+
+    /*
      * @return den aktuellen Bildschirminhalt als String
      */
     public String readScreen() {
@@ -46,9 +48,19 @@ public class Calculator {
      * im Ursprungszustand ist.
      */
     public void pressClearKey() {
-        screen = "0";
-        latestOperation = "";
-        latestValue = 0.0;
+
+        if (clearEntry) {
+            screen = "0";
+        } else {
+            clearEntry= false;
+            screen = "0";
+            latestOperation = null;
+            latestValue = 0.0;
+        }
+
+        //screen = "0";
+        //latestOperation = "";
+        //latestValue = 0.0;
     }
 
     /**
@@ -70,6 +82,7 @@ public class Calculator {
      * Quadratwurzel, Prozent, Inversion, welche nur einen Operanden benötigen.
      * Beim Drücken der Taste wird direkt die Operation auf den aktuellen Zahlenwert angewendet und
      * der Bildschirminhalt mit dem Ergebnis aktualisiert.
+     * Falls beim Inversion x = 0 ist, wird Error auf dem Bildschirm angezeigt.
      * @param operation "√" für Quadratwurzel, "%" für Prozent, "1/x" für Inversion
      */
     public void pressUnaryOperationKey(String operation) {
@@ -79,9 +92,11 @@ public class Calculator {
             case "√" -> Math.sqrt(Double.parseDouble(screen));
             case "%" -> Double.parseDouble(screen) / 100;
             case "1/x" -> 1 / Double.parseDouble(screen);
+
             default -> throw new IllegalArgumentException();
         };
         screen = Double.toString(result);
+        if(screen.equals("Infinity")) screen = "Error"; //Hier ist korrigiert
         if(screen.equals("NaN")) screen = "Error";
         if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
 
@@ -117,8 +132,10 @@ public class Calculator {
      * Wird die Taste weitere Male gedrückt (ohne andere Tasten dazwischen), so wird die letzte
      * Operation (ggf. inklusive letztem Operand) erneut auf den aktuellen Bildschirminhalt angewandt
      * und das Ergebnis direkt angezeigt.
+     *
      */
     public void pressEqualsKey() {
+
         var result = switch(latestOperation) {
             case "+" -> latestValue + Double.parseDouble(screen);
             case "-" -> latestValue - Double.parseDouble(screen);
@@ -128,6 +145,7 @@ public class Calculator {
         };
         screen = Double.toString(result);
         if(screen.equals("Infinity")) screen = "Error";
+        if(screen.equals("NaN")) screen = "Error";
         if(screen.endsWith(".0")) screen = screen.substring(0,screen.length()-2);
         if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
     }
