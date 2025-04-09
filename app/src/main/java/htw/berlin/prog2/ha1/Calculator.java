@@ -75,8 +75,11 @@ public class Calculator {
      * @param operation "+" für Addition, "-" für Substraktion, "x" für Multiplikation, "/" für Division
      */
     public void pressBinaryOperationKey(String operation)  {
+        if(!latestOperation.equals("") && latestValue != Double.parseDouble(screen)) { //Es wurde bereits eine Operation eingegeben und der letzte Wert entspricht nicht dem Screen. Bsp: ich tippe 2 -> Screen 2; "+" -> latestOp. = "+", , latestVal = 2 ; ich tippe 3 -> screen = 3. Da beide Bedindungen von if erfüllt sind, berechnet die Methode erst und latestVal. wird das Ergebnis
+            pressEqualsKey();
+        }
         latestValue = Double.parseDouble(screen); //Double.parseDouble() konvertiert String in Double
-        latestOperation = operation;
+        latestOperation = operation; // 2. Operation wird als latestOperation gesetzt
     }//Der Screen verändert sich nicht / Beim ersten drücken ändert sich die Operation /
     //Reihenfolge: Zahl Operation Zahl -> es wird nur die letzte Zahl ausgegeben
 
