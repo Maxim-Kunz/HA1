@@ -59,9 +59,11 @@ public class Calculator {
     public void pressClearKey() {
         screen = "0";
         latestOperation = "";
-        latestValue = 0.0;
+
     }
     //Abweichung: Zweimaliges Drücken hat keinen besonderen Effekt
+    //Bugfix -> latestValue = 0.0; löschen
+    //Davor: 1x drücken löscht latestValue
 
     /**
      * Empfängt den Wert einer gedrückten binären Operationstaste, also eine der vier Operationen
