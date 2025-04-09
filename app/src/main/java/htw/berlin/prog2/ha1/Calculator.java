@@ -58,9 +58,6 @@ public class Calculator {
             latestValue = 0.0;
         }
 
-        //screen = "0";
-        //latestOperation = "";
-        //latestValue = 0.0;
     }
 
     /**
@@ -128,7 +125,7 @@ public class Calculator {
      * Empfängt den Befehl der gedrückten "="-Taste.
      * Wurde zuvor keine Operationstaste gedrückt, passiert nichts.
      * Wurde zuvor eine binäre Operationstaste gedrückt und zwei Operanden eingegeben, wird das
-     * Ergebnis der Operation angezeigt. Falls hierbei eine Division durch Null auftritt, wird "Error" angezeigt.
+     * Ergebnis der Operation angezeigt. Falls hierbei eine Division durch Null sowie 0/0 auftritt, wird "Error" angezeigt.
      * Wird die Taste weitere Male gedrückt (ohne andere Tasten dazwischen), so wird die letzte
      * Operation (ggf. inklusive letztem Operand) erneut auf den aktuellen Bildschirminhalt angewandt
      * und das Ergebnis direkt angezeigt.
