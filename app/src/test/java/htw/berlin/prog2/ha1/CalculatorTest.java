@@ -110,7 +110,7 @@ class CalculatorTest {
     }
 
     @Test
-    @DisplayName("should display result after multiplying a negative and a positive single-digit number")
+    @DisplayName("should display result after pressing the equals without a Operation")
     void testMultipleNegativeKeys() {
         Calculator calc = new Calculator();
 
