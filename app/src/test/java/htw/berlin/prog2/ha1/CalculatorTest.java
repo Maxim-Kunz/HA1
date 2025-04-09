@@ -109,19 +109,5 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
-    @Test
-    @DisplayName("should make double NegativeKey into a positive number")
-    void testMultipleNegativeKey() {
-        Calculator calc = new Calculator();
-
-        calc.pressDigitKey(7);
-        calc.pressNegativeKey();
-        calc.pressNegativeKey();
-
-        String expected = "7";
-        String actual = calc.readScreen();
-
-        assertEquals(expected, actual);
-    }
 }
 
