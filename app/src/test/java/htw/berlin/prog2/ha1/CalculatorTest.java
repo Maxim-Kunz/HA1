@@ -99,8 +99,11 @@ class CalculatorTest {
 
         calc.pressDigitKey(3);
         calc.pressDigitKey(0);
+
         calc.pressBinaryOperationKey("x");
+
         calc.pressDigitKey(2);
+
         calc.pressEqualsKey();
 
         String expected = "60";
@@ -116,14 +119,38 @@ class CalculatorTest {
         Calculator calc = new Calculator();
 
         calc.pressDigitKey(3);
+
         calc.pressBinaryOperationKey("+");
+
         calc.pressDigitKey(2);
-        calc.pressEqualsKey();
 
         calc.pressEqualsKey();
-        String expected = "5";
+        calc.pressEqualsKey();
+
+        String expected = "7";
         String actual = calc.readScreen();
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    @DisplayName("should turn positive number to negative and vice versa")
+    void testNegativeKey() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(2);
+        calc.pressDigitKey(0);
+
+        calc.pressNegativeKey();
+        calc.pressNegativeKey();
+
+        calc.pressEqualsKey();
+
+        String expected = "20";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+
 }
