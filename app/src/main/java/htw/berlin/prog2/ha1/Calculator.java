@@ -105,6 +105,8 @@ public class Calculator {
      * entfernt und der Inhalt fortan als positiv interpretiert.
      */
     public void pressNegativeKey() {
+        if (screen.equals("0"))
+            return;
         screen = screen.startsWith("-") ? screen.substring(1) : "-" + screen;
     }
 
