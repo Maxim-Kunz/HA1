@@ -90,15 +90,16 @@ class CalculatorTest {
 
 
     //TODO hier weitere Tests erstellen
-
     @Test
     @DisplayName("should reverse the sign correctly e.g. -=>+/+=>-")
-    void testNegativeKey(){
+    void testNegativeKey() {
+        Calculator calc = new Calculator();
+
         calc.pressDigitKey(7);
         calc.pressNegativeKey();
         calc.pressNegativeKey();
 
-        String expected="7";
+        String expected = "7";
         String actual = calc.readScreen();
 
         assertEquals(expected, actual);
