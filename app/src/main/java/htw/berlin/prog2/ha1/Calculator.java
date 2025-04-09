@@ -82,7 +82,7 @@ public class Calculator {
     public void pressUnaryOperationKey(String operation) {
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
-
+        // sorgt dafür, das der kehrwert durch null vorher erkannt wird!
         if (operation.equals("1/x") && Double.parseDouble(screen) == 0) {
             screen = "Error";
             return;

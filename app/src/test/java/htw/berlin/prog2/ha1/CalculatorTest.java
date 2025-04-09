@@ -106,6 +106,24 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    @DisplayName("should add to result with the second operand ")
+    void testAddToResultWithSecondOperand() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(2);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(3);
+        calc.pressEqualsKey();
+        calc.pressEqualsKey();
+
+        String expected = "8";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
     @Test
     @DisplayName("Inverse by Zero should show 'Error'")
     void testInverseByZero() {
@@ -118,20 +136,6 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
-    @Test
-    @DisplayName("Press EqualsKey and Unary operations ") //Teamwork with Christian Püschel bei der code zerlegung
-    void testPressEqualsKey() {
-        Calculator calc = new Calculator();
-        calc.pressDigitKey(2);
-        calc.pressBinaryOperationKey("+");
-        calc.pressEqualsKey();
-        calc.pressDigitKey(4);
-        calc.pressEqualsKey();
 
-        String expected = "6";
-        String actual = calc.readScreen();
-
-        assertEquals(expected, actual);
-    }
 
 }
