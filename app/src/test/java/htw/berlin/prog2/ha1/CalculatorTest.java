@@ -127,5 +127,23 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+    //zweiter roter Test (grüner Test, wenn Funktion ergänzt).
+    @Test
+    @DisplayName("pressClearKey should not reset latestValue and latestOperation on first press")
+    void testClearKey() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(10);
+        calc.pressBinaryOperationKey("+");
+        calc.pressClearKey();                  //sollte sich 10+ merken
+        calc.pressDigitKey(2);
+        calc.pressEqualsKey();
+
+        String expected = "12";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
 }
 
