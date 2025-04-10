@@ -34,6 +34,10 @@ public class Calculator {
         if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
 
         screen = screen + digit;
+    // Bugfix zweiter roter Test
+        if(screen.length() > 10) {
+            screen = screen.substring(0,10);
+        }
     }
 
     /**
@@ -74,6 +78,12 @@ public class Calculator {
     public void pressUnaryOperationKey(String operation) {
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
+
+        // Bugfix erster roter Test
+        if (operation.equals("1/x") && latestValue == 0) {
+            screen = "Error";
+            return;
+        }
         var result = switch(operation) {
             case "√" -> Math.sqrt(Double.parseDouble(screen));
             case "%" -> Double.parseDouble(screen) / 100;
