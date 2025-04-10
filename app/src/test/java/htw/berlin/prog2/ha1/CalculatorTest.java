@@ -88,7 +88,86 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+    //Ein grüner Test
+    @Test
+    @DisplayName("should toggle the sign of the result when NegativeKey is pressed")
+    void testPressedNegativeKey(){
+        Calculator calc = new Calculator();
 
-    //TODO hier weitere Tests erstellen
+        calc.pressDigitKey(6);
+        calc.pressBinaryOperationKey("-");
+        calc.pressDigitKey(9);
+        calc.pressEqualsKey();
+        calc.pressNegativeKey();
+
+        String expected = "3";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+    //Test mit rotem Ergebnis und der Bug ist schon repariert.
+    @Test
+    @DisplayName("reset the calculator to the first state  after pressing the clear key twice")
+    void testPressedClearKeyTwice(){
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(1);
+        calc.pressDigitKey(0);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(6);
+        calc.pressClearKey();
+        calc.pressClearKey();
+
+        String screenExpected = "0";
+        double valueExpected = 0.0;
+        String operationExpected = null;
+
+        String screenActual = calc.readScreen() ;
+        double valueActual = calc.getLatestValue();
+        String operationActual = calc.getLatestOperation();
+
+
+        assertEquals(valueExpected,valueActual);
+        assertEquals(operationExpected,operationActual);
+        assertEquals(screenExpected, screenActual);
+
+    }
+
+    //Test mit rotem Ergebnis und der Bug ist schon repariert.
+    @Test
+    @DisplayName("should display error when dividing zero by zero")
+    void test(){
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(0);
+        calc.pressBinaryOperationKey("/");
+        calc.pressDigitKey(0);
+        calc.pressEqualsKey();
+
+        String expected = "Error";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+
+    }
+
+    //Test mit rotem Ergebnis und der Bug ist schon repariert.
+    @Test
+    @DisplayName("should display error when calculating the resiprocal of 0")
+    void testInversion(){
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(0);
+        calc.pressUnaryOperationKey("1/x");
+
+        String expected = "Error";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+
+    }
+
+
 }
 
