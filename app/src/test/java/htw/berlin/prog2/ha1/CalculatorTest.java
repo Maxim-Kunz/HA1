@@ -91,8 +91,10 @@ class CalculatorTest {
 
     //TODO hier weitere Tests erstellen
 
+    //Grüner Test
+
     @Test
-    @DisplayName("Mulplying two Negative Numbers should result into a Positiv Number")
+    @DisplayName("Multiplying two Negative Numbers should result into a Positiv Number")
 
     void testPositivNumber(){
 
@@ -112,5 +114,54 @@ class CalculatorTest {
         assertEquals(expected, actual);
 
     }
+
+    //Rote Tests
+
+    @Test
+    @DisplayName("dividing 0 with 0 should return Error")
+    void testZeroDivideZero(){
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(0);
+        calc.pressBinaryOperationKey("/");
+        calc.pressDigitKey(0);
+
+        calc.pressEqualsKey();
+
+        String expected = "Error";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+
+
+
+
+
+
+    }
+
+    @Test
+    @DisplayName("Pressing the equals button again should calculate the result with the last digit and operand")
+    void testEqualsButton(){
+
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(2);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(3);
+
+        calc.pressEqualsKey();
+        calc.pressEqualsKey();
+
+        String expected = "8";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+
+
+
+    }
+
+
 }
 
