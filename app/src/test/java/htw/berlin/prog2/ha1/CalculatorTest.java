@@ -119,10 +119,14 @@ class CalculatorTest {
         calc.pressClearKey();
         calc.pressClearKey();
 
-        String expected = "0";
-        String actual = calc.readScreen();
+        String screenExpected = "0";
+        double valueExpected = 0.0;
+        String operationExpected = "";
 
-        assertEquals(expected, actual);
+        String actual = calc.readScreen() ;
+        assertEquals();
+        assertEquals();
+        assertEquals(screenExpected, actual);
 
     }
 
