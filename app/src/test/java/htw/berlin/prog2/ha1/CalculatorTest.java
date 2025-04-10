@@ -25,7 +25,6 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
-
     @Test
     @DisplayName("should display result after getting the square root of two")
     void testSquareRoot() {
@@ -90,5 +89,66 @@ class CalculatorTest {
 
 
     //TODO hier weitere Tests erstellen
+
+
+    //Teilaufgabe 1
+    @Test
+    @DisplayName("sollte das Ergebnis nach einer Multiplikation zweier Zahlen anzeigen")
+    void testPositiveMultiplication() {
+        Calculator calc = new Calculator();
+
+        // 5 x 4 = 20
+        calc.pressDigitKey(5);
+        calc.pressBinaryOperationKey("x");
+        calc.pressDigitKey(4);
+        calc.pressEqualsKey();
+
+        String expected = "20";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+    //Teilaufgabe 2
+    @Test
+    @DisplayName("sollte die letzte Operation wiederholen, wenn man öfter auf ´=´ drückt")
+    void testRepeatedEquals() {
+        Calculator calc = new Calculator();
+
+        //  2 + 3 = 5
+        calc.pressDigitKey(2);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(3);
+        calc.pressEqualsKey(); // Erwartetes Ergebnis: 5
+
+        calc.pressEqualsKey(); // Erwartetes Ergebnis: 8
+        calc.pressEqualsKey(); // Erwartetes Ergebnis: 11
+
+        String expected = "11"; //was erwartet wird
+        String actual = calc.readScreen(); //was tatsächlich ausgegeben wird
+
+        assertEquals(expected, actual); // Der Bildschirm sollte 11 anzeigen
+    }
+
+    @Test
+    @DisplayName("sollte neue Eingabe nach Gleich-Taste als frische Zahl behandeln und nicht anhängen")
+    void testNewInputAfterEqualsStartsFresh() {
+        Calculator calc = new Calculator();
+
+        // 5 x 4 = → ergibt 20
+        calc.pressDigitKey(5);
+        calc.pressBinaryOperationKey("x");
+        calc.pressDigitKey(4);
+        calc.pressEqualsKey();
+
+        // Neue Zahl eingeben
+        calc.pressDigitKey(7);
+
+        String expected = "7";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
 }
 
