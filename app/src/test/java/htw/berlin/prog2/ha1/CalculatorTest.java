@@ -90,5 +90,22 @@ class CalculatorTest {
 
 
     //TODO hier weitere Tests erstellen
+    //grüner Test
+    @Test
+    @DisplayName("should display result after subtracing a smaller number from a large one")
+    void testPositiveSubraction() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(5);
+        calc.pressBinaryOperationKey("-");
+        calc.pressDigitKey(2);
+        calc.pressEqualsKey();
+
+        String expected = "3";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
 }
+
 
