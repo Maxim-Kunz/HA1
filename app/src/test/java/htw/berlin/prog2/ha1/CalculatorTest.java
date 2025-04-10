@@ -133,13 +133,13 @@ class CalculatorTest {
     void testClearKey() {
         Calculator calc = new Calculator();
 
-        calc.pressDigitKey(10);
+        calc.pressDigitKey(9);
         calc.pressBinaryOperationKey("+");
-        calc.pressClearKey();               //sollte sich 10+ merken
+        calc.pressClearKey();               //sollte sich 9+ merken
         calc.pressDigitKey(2);
         calc.pressEqualsKey();
 
-        String expected = "12";
+        String expected = "11";
         String actual = calc.readScreen();
 
         assertEquals(expected, actual);
