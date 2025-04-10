@@ -14,6 +14,13 @@ public class Calculator {
 
     private String latestOperation = "";
 
+    // Neue Variablen lastOperand und wasJustcalCalculated
+    private double lastOperand;
+
+    private boolean wasJustCalculated;
+
+
+
     /**
      * @return den aktuellen Bildschirminhalt als String
      */
@@ -27,6 +34,7 @@ public class Calculator {
      * Führt in jedem Fall dazu, dass die gerade gedrückte Ziffer auf dem Bildschirm angezeigt
      * oder rechts an die zuvor gedrückte Ziffer angehängt angezeigt wird.
      * @param digit Die Ziffer, deren Taste gedrückt wurde
+     * wasJustCalculated wird als false definiert
      */
     public void pressDigitKey(int digit) {
         if(digit > 9 || digit < 0) throw new IllegalArgumentException();
@@ -34,6 +42,8 @@ public class Calculator {
         if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
 
         screen = screen + digit;
+
+        wasJustCalculated = false;
     }
 
     /**
@@ -62,6 +72,7 @@ public class Calculator {
     public void pressBinaryOperationKey(String operation)  {
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
+
     }
 
     /**
@@ -80,6 +91,9 @@ public class Calculator {
             case "1/x" -> 1 / Double.parseDouble(screen);
             default -> throw new IllegalArgumentException();
         };
+
+
+
         screen = Double.toString(result);
         if(screen.equals("NaN")) screen = "Error";
         if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
@@ -112,22 +126,59 @@ public class Calculator {
      * Empfängt den Befehl der gedrückten "="-Taste.
      * Wurde zuvor keine Operationstaste gedrückt, passiert nichts.
      * Wurde zuvor eine binäre Operationstaste gedrückt und zwei Operanden eingegeben, wird das
-     * Ergebnis der Operation angezeigt. Falls hierbei eine Division durch Null auftritt, wird "Error" angezeigt.
+     * Ergebnis der Operation angezeigt. Falls hierbei eine Division durch null auftritt, wird "Error" angezeigt.
      * Wird die Taste weitere Male gedrückt (ohne andere Tasten dazwischen), so wird die letzte
      * Operation (ggf. inklusive letztem Operand) erneut auf den aktuellen Bildschirminhalt angewandt
      * und das Ergebnis direkt angezeigt.
+     *
+     * Führt die gespeicherte binäre Operation zwischen dem letzten eingegebenen Wert (latestValue)
+     * und dem aktuellen Bildschirmwert (oder dem zuletzt verwendeten rechten Operanden) aus.
+     * Wird "=" zum ersten Mal gedrückt, wird der aktuelle Bildschirmwert als zweiter Operand gespeichert
+     * (in lastOperand) und die Operation ausgeführt.
+     *
+     * Wird "=" erneut gedrückt (ohne neue Eingabe dazwischen), wird die letzte Operation mit dem aktuellen
+     * Ergebnis (latestValue) und dem gespeicherten rechten Operand (lastOperand) wiederholt.
+     * Das Ergebnis wird auf dem Bildschirm angezeigt und als neuer latestValue gespeichert.
+     *
+     * Spezialfälle wie Division durch null werden erkannt und als "Error" angezeigt.
+     * Ergebnisse werden für die Anzeige entsprechend formatiert (z.B. max. 10 Stellen, ".0" wird entfernt).
+     *
      */
     public void pressEqualsKey() {
+
+        double rightOperand;
+
+        if(!wasJustCalculated){
+
+            rightOperand = Double.parseDouble(screen);
+            lastOperand = rightOperand;
+
+
+        }else {
+
+            rightOperand = lastOperand;
+        }
+
         var result = switch(latestOperation) {
-            case "+" -> latestValue + Double.parseDouble(screen);
-            case "-" -> latestValue - Double.parseDouble(screen);
-            case "x" -> latestValue * Double.parseDouble(screen);
-            case "/" -> latestValue / Double.parseDouble(screen);
+            case "+" -> latestValue + rightOperand;
+            case "-" -> latestValue - rightOperand;
+            case "x" -> latestValue * rightOperand;
+            case "/" -> latestValue / rightOperand;
             default -> throw new IllegalArgumentException();
+
         };
+
+        latestValue = result;
+
         screen = Double.toString(result);
+        wasJustCalculated = true;
         if(screen.equals("Infinity")) screen = "Error";
+        if(screen.equals("NaN")) screen = "Error";
         if(screen.endsWith(".0")) screen = screen.substring(0,screen.length()-2);
         if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
+
+
+
+
     }
 }
