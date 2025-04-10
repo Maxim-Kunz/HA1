@@ -135,7 +135,7 @@ class CalculatorTest {
 
         calc.pressDigitKey(10);
         calc.pressBinaryOperationKey("+");
-        calc.pressClearKey();                  //sollte sich 10+ merken
+        calc.pressClearKey();               //sollte sich 10+ merken
         calc.pressDigitKey(2);
         calc.pressEqualsKey();
 

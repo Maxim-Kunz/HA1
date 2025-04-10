@@ -14,6 +14,10 @@ public class Calculator {
 
     private String latestOperation = "";
 
+    private double secondOperand;
+
+    private boolean isSecondOperandSet = false;
+
     /**
      * @return den aktuellen Bildschirminhalt als String
      */
@@ -44,11 +48,15 @@ public class Calculator {
      * Werte sowie der aktuelle Operationsmodus zurückgesetzt, so dass der Rechner wieder
      * im Ursprungszustand ist.
      */
+
+    private boolean clearPressed = false;
+
     public void pressClearKey() {
         screen = "0";
-        latestOperation = "";
         latestValue = 0.0;
+        latestOperation = "";
     }
+
 
     /**
      * Empfängt den Wert einer gedrückten binären Operationstaste, also eine der vier Operationen
@@ -62,6 +70,7 @@ public class Calculator {
     public void pressBinaryOperationKey(String operation)  {
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
+        isSecondOperandSet = false;
     }
 
     /**
@@ -118,16 +127,36 @@ public class Calculator {
      * und das Ergebnis direkt angezeigt.
      */
     public void pressEqualsKey() {
+        if(!latestOperation.isEmpty()){
+            if(!isSecondOperandSet){
+                secondOperand = Double.parseDouble(screen);
+                isSecondOperandSet = true;
+            }
+        }
         var result = switch(latestOperation) {
-            case "+" -> latestValue + Double.parseDouble(screen);
-            case "-" -> latestValue - Double.parseDouble(screen);
-            case "x" -> latestValue * Double.parseDouble(screen);
-            case "/" -> latestValue / Double.parseDouble(screen);
+            case "+" -> latestValue + secondOperand;
+            case "-" -> latestValue - secondOperand;
+            case "x" -> latestValue * secondOperand;
+            case "/" -> {
+                if (secondOperand == 0) {
+                    yield Double.POSITIVE_INFINITY;
+                }
+                yield latestValue / secondOperand;
+            }
             default -> throw new IllegalArgumentException();
         };
-        screen = Double.toString(result);
-        if(screen.equals("Infinity")) screen = "Error";
-        if(screen.endsWith(".0")) screen = screen.substring(0,screen.length()-2);
-        if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
+
+        screen = formatResult(result);
+        latestValue = result;
+    }
+
+    private String formatResult(double result) {
+        if (Double.isInfinite(result)) {
+            return "Error";
+        }
+        String strResult = Double.toString(result);
+        strResult = strResult.endsWith(".0")
+                ? strResult.substring(0, strResult.length() - 2) : strResult;
+        return strResult.length() > 11 ? strResult.substring(0, 11) : strResult;
     }
 }
