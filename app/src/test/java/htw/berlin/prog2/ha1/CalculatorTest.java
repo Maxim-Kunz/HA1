@@ -88,7 +88,49 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    @DisplayName("Ersetzt auf dem Display die 0, wenn eine Zahl zwischen 1 und 9 nachfolgend gedrückt wird")
+    void testPressDigitKey(){
+        Calculator calc = new Calculator();
 
+        calc.pressDigitKey(0);
+        calc.pressDigitKey(5);
+
+        String expected = "5";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("Anfügen mehrerer gleicher aufeinanderfolgender Zahlen")
+    void testPressDigitKeyWholeNumber(){
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(3);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(3);
+        calc.pressDigitKey(4);
+
+        String expected = "34";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("1/X wirft bei screen = 0 einen Error")
+    void testDivideOneByZero(){
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(0);
+        calc.pressUnaryOperationKey("1/x");
+
+        String expected = "Error";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
     //TODO hier weitere Tests erstellen
 }
 
