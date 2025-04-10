@@ -34,6 +34,10 @@ public class Calculator {
         if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
 
         screen = screen + digit;
+    // Bugfix zweiter roter Test
+        if(screen.length() > 10) {
+            screen = screen.substring(0,10);
+        }
     }
 
     /**

@@ -121,6 +121,30 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
+
+    //zweiter roter Test -> grüner Test
+    @Test
+    @DisplayName("should not allow to display more than 10 digits")
+    void testTooManyDigits() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(1);
+        calc.pressDigitKey(2);
+        calc.pressDigitKey(3);
+        calc.pressDigitKey(4);
+        calc.pressDigitKey(5);
+        calc.pressDigitKey(6);
+        calc.pressDigitKey(7);
+        calc.pressDigitKey(8);
+        calc.pressDigitKey(9);
+        calc.pressDigitKey(0);
+        calc.pressDigitKey(1);
+
+        String expected = "1234567890";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
 }
 
 
