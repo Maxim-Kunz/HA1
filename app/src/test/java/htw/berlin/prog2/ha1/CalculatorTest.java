@@ -88,9 +88,12 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+
+    //erster grüner Test mit schon funktionierenden Funktionen.
+
     @Test
     @DisplayName("should calculate with negative numbers")
-    void testNegativeKey() {
+    void testNegativeAddition() {
         Calculator calc = new Calculator();
 
         calc.pressDigitKey(5);
@@ -104,6 +107,25 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
-    //TODO hier weitere Tests erstellen
+
+    //erster roter Test (grüner Test, wenn Funktionen ergänzt).
+
+    @Test
+    @DisplayName("should repeat last operation with same operand when pressing equals key multiple times")
+    void testRepeatOperationWithEquals(){
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(8);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(2);
+        calc.pressEqualsKey(); //Ausgabe ist 10
+        calc.pressEqualsKey(); //10+2= Ausgabe ist 12
+
+        String expected = "12";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
 }
 
