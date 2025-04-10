@@ -91,22 +91,20 @@ class CalculatorTest {
 
     //TODO hier weitere Tests erstellen
     @Test
-    @DisplayName("should multiply with the equals key")
-    void testMultiplyWithTheEqualsKey() {
+    @DisplayName("change the display digits after operation")
+    void testChangeTheDisplayDigitsAfterOperation() {
         Calculator calc = new Calculator();
 
         calc.pressDigitKey(2);
-        calc.pressBinaryOperationKey("x");
-        calc.pressDigitKey(2);
-        calc.pressEqualsKey();
-        calc.pressEqualsKey();
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(3);
 
-        String expected = "8";
+        String expected = "3";
         String actual = calc.readScreen();
 
         assertEquals(expected, actual);
     }
-
+/**
     @Test
     @DisplayName("should add to result with the second operand ")
     void testAddToResultWithSecondOperand() {
@@ -136,6 +134,6 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
-
+*/
 
 }

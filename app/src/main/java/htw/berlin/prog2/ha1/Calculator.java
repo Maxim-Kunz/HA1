@@ -14,9 +14,9 @@ public class Calculator {
 
     private String latestOperation = "";
 
-    private double latestOperand = 0.0;
+    //private double latestOperand = 0.0;
 
-    private boolean repeatEquals = false;
+    //private boolean repeatEquals = false;
 
 
     /**
@@ -83,10 +83,10 @@ public class Calculator {
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
         // sorgt dafür, das der kehrwert durch null vorher erkannt wird!
-        if (operation.equals("1/x") && Double.parseDouble(screen) == 0) {
+        /**if (operation.equals("1/x") && Double.parseDouble(screen) == 0) {
             screen = "Error";
             return;
-        }
+        }*/
 
         var result = switch (operation) {
             case "√" -> Math.sqrt(Double.parseDouble(screen));
@@ -95,7 +95,7 @@ public class Calculator {
             default -> throw new IllegalArgumentException();
         };
         screen = Double.toString(result);
-        if (screen.equals("NaN")) screen = "Error";
+        if (screen.equals("NaN") /* || screen.equals("Infinity")*/) screen = "Error";
         if (screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
 
     }
@@ -132,33 +132,35 @@ public class Calculator {
      * und das Ergebnis direkt angezeigt.
      */
     public void pressEqualsKey() {
-        double secondOperand = repeatEquals ? latestOperand : Double.parseDouble(screen);
+        /** double secondOperand = repeatEquals ? latestOperand : Double.parseDouble(screen);
         if (!repeatEquals) {
             latestOperand = secondOperand;
             repeatEquals = true;
-        }
+        }*/
 
         var result = switch (latestOperation) {
-            case "+" -> latestValue + latestOperand;
-            case "-" -> latestValue - latestOperand;
-            case "x" -> latestValue * latestOperand;
-            case "/" -> latestValue / latestOperand;
+            case "+" -> latestValue + Double.parseDouble(screen);
+            case "-" -> latestValue - Double.parseDouble(screen);
+            case "x" -> latestValue * Double.parseDouble(screen);
+            case "/" -> latestValue / Double.parseDouble(screen);
             default -> throw new IllegalArgumentException();
         };
         screen = Double.toString(result);
         if (screen.equals("Infinity")) screen = "Error";
         if (screen.endsWith(".0")) screen = screen.substring(0, screen.length() - 2);
         if (screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
-        latestValue = result;
+        //latestValue = result;
     }
 
     public static void main(String[] args) {
         Calculator calci = new Calculator();
 
-        calci.pressDigitKey(0);
-        calci.pressUnaryOperationKey("1/x");
-        //calci.pressDigitKey(0);
-        //calci.pressEqualsKey();
+        calci.pressDigitKey(2);
+        calci.pressBinaryOperationKey("+");
+        calci.pressDigitKey(2);
+        //calci.pressDigitKey(4);
+        calci.pressEqualsKey();
+        calci.pressEqualsKey();
 
         System.out.println("The Magic answer is = " + calci.screen);
     }
