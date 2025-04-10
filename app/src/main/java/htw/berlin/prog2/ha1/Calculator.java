@@ -14,7 +14,7 @@ public class Calculator {
 
     private String latestOperation = "";
 
-    private boolean clearEntry = true;
+    private boolean clearEntrytwice = true;
 
     /*
      * @return den aktuellen Bildschirminhalt als String
@@ -23,6 +23,24 @@ public class Calculator {
 
         return screen;
     }
+
+    public double getLatestValue() {
+        return latestValue;
+    }
+
+    public void setLatestValue(double latestValue) {
+        this.latestValue = latestValue;
+    }
+
+    public String getLatestOperation() {
+        return latestOperation;
+    }
+
+    public void setLatestOperation(String latestOperation) {
+        this.latestOperation = latestOperation;
+    }
+
+
 
     /**
      * Empfängt den Wert einer gedrückten Zifferntaste. Da man nur eine Taste auf einmal
@@ -49,14 +67,16 @@ public class Calculator {
      */
     public void pressClearKey() {
 
-        if (clearEntry) {
+        if (clearEntrytwice) {
+            clearEntrytwice = true;
             screen = "0";
+            setLatestOperation(null);
+            setLatestValue(0.0);
         } else {
-            clearEntry= false;
             screen = "0";
-            latestOperation = null;
-            latestValue = 0.0;
+            clearEntrytwice = false;
         }
+
 
     }
 

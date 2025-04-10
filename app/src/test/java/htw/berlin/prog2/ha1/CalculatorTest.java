@@ -121,12 +121,16 @@ class CalculatorTest {
 
         String screenExpected = "0";
         double valueExpected = 0.0;
-        String operationExpected = "";
+        String operationExpected = null;
 
-        String actual = calc.readScreen() ;
-        assertEquals();
-        assertEquals();
-        assertEquals(screenExpected, actual);
+        String screenActual = calc.readScreen() ;
+        double valueActual = calc.getLatestValue();
+        String operationActual = calc.getLatestOperation();
+
+
+        assertEquals(valueExpected,valueActual);
+        assertEquals(operationExpected,operationActual);
+        assertEquals(screenExpected, screenActual);
 
     }
 
