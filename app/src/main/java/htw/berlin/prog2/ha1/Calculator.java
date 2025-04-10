@@ -150,6 +150,8 @@ public class Calculator {
         latestValue = result;
     }
 
+    //Hilfsklasse, um das Ergebnis im richtigen Format auszugeben.
+
     private String formatResult(double result) {
         if (Double.isInfinite(result)) {
             return "Error";
