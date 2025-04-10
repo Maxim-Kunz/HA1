@@ -14,6 +14,8 @@ public class Calculator {
 
     private double lastOperand; //Operand für ein wiederholtes "="
     private boolean repeatEquals = false;  // Status für das wiederholte Gleich-Zeichen
+    private boolean startNewNumber = false; // Steuert, ob eine neue Zahl begonnen werden soll
+
 
     /**
      * @return den aktuellen Bildschirminhalt als String
@@ -32,11 +34,13 @@ public class Calculator {
     public void pressDigitKey(int digit) {
         if(digit > 9 || digit < 0) throw new IllegalArgumentException();
 
-        if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
+        if (screen.equals("0") || startNewNumber) {
+            screen = "";
+            startNewNumber = false; //
+        }
 
         screen = screen + digit;
     }
-
     /**
      * Empfängt den Befehl der C- bzw. CE-Taste (Clear bzw. Clear Entry).
      * Einmaliges Drücken der Taste löscht die zuvor eingegebenen Ziffern auf dem Bildschirm
@@ -65,6 +69,7 @@ public class Calculator {
      * repeatEquals wird nur dann benutzt wenn die Gleich-Taste mehrmals getätigt wurde
      */
     public void pressBinaryOperationKey(String operation)  {
+        startNewNumber = true; // nach Eingabe wartet der Taschenrechner auf eine Zahl
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
         repeatEquals = false;
@@ -128,6 +133,7 @@ public class Calculator {
      */
     public void pressEqualsKey() {
         double currentValue = Double.parseDouble(screen);
+        startNewNumber = true; // nächste Eingabe startet neue Zahl
 
         if (!repeatEquals) {
             lastOperand = currentValue; // speichere erstmalig den zweiten Operand

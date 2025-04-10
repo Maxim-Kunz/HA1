@@ -89,6 +89,8 @@ class CalculatorTest {
 
 
     //TODO hier weitere Tests erstellen
+
+
     //Teilaufgabe 1
     @Test
     @DisplayName("sollte das Ergebnis nach einer Multiplikation zweier Zahlen anzeigen")
@@ -107,6 +109,7 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+    //Teilaufgabe 2
     @Test
     @DisplayName("sollte die letzte Operation wiederholen, wenn man öfter auf ´=´ drückt")
     void testRepeatedEquals() {
@@ -128,24 +131,24 @@ class CalculatorTest {
     }
 
     @Test
-    @DisplayName("gibt die Ergebnisse nun auch in Dezimalzahlen aus")
-    void testDecimalMultiplication() {
+    @DisplayName("sollte neue Eingabe nach Gleich-Taste als frische Zahl behandeln und nicht anhängen")
+    void testNewInputAfterEqualsStartsFresh() {
         Calculator calc = new Calculator();
 
-        //(1 wird eingegeben) . (5 wird eingegeben) = 1.5 x 2 = 3.0 <- soll ausgegeben werden
-        calc.pressDigitKey(1);
-        calc.pressDotKey();
-        calc.pressDigitKey(5); // 1.6
-
+        // 5 x 4 = → ergibt 20
+        calc.pressDigitKey(5);
         calc.pressBinaryOperationKey("x");
-
-        calc.pressDigitKey(2);
+        calc.pressDigitKey(4);
         calc.pressEqualsKey();
 
-        String expected = "3"; // 1.5 x 2 = 3
+        // Neue Zahl eingeben
+        calc.pressDigitKey(7);
+
+        String expected = "7";
         String actual = calc.readScreen();
 
         assertEquals(expected, actual);
     }
+
 }
 
