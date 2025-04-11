@@ -18,6 +18,9 @@ public class Calculator {
     // https://stackoverflow.com/questions/26528190/nullable-double
     private Double secondValue = null;
 
+    // clearKey umschalter, siehe erklärung in der methode
+    private boolean clearKeyToggle = true;
+
     /**
      * @return den aktuellen Bildschirminhalt als String
      */
@@ -49,9 +52,22 @@ public class Calculator {
      * im Ursprungszustand ist.
      */
     public void pressClearKey() {
-        screen = "0";
-        latestOperation = "";
-        firstValue = 0.0;
+        /* ablauf in unserem beispiel:
+        1. 5 +
+        2. clearKey wird gedrückt
+        3. screen = "0", clearKeyToggle = false
+        4. equalsKey wird gedrückt
+        6. zwischenergebnis: 5 */
+
+        if (clearKeyToggle) { // wenn clearKeyToggle wahr
+            screen = "0";
+            clearKeyToggle = false;
+        } else { // wenn clearKeyToggle falsch
+            screen = "0";
+            latestOperation = "";
+            firstValue = 0.0;
+            clearKeyToggle = true;
+        }
     }
 
     /**

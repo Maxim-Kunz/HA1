@@ -165,6 +165,7 @@ class CalculatorTest {
         calc.pressBinaryOperationKey("+");
 
         calc.pressClearKey();
+        // calc.pressClearKey();
 
         calc.pressEqualsKey();
 
