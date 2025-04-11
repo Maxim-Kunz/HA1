@@ -135,6 +135,9 @@ public class Calculator {
         else // wenn secondValue einen wert erhalten hat
             firstValue = Double.parseDouble(screen); // in unserem beispiel: 3, dann 5, dann 7...
 
+        if (latestOperation == "") // wenn die letzte operation nicht definiert wurde
+            return;
+
         var result = switch(latestOperation) {
             case "+" -> firstValue + secondValue;
             case "-" -> firstValue - secondValue;
