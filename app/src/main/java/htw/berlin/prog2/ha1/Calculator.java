@@ -10,9 +10,16 @@ public class Calculator {
 
     private String screen = "0";
 
-    private double latestValue;
+    private double firstValue; // latestValue --> firstValue
 
     private String latestOperation = "";
+
+    // double wird großgeschrieben damit es mit null initialisiert werden könnte. quelle:
+    // https://stackoverflow.com/questions/26528190/nullable-double
+    private Double secondValue = null;
+
+    // clearKey umschalter, siehe erklärung in der methode
+    private boolean clearKeyToggle = true;
 
     /**
      * @return den aktuellen Bildschirminhalt als String
@@ -31,7 +38,7 @@ public class Calculator {
     public void pressDigitKey(int digit) {
         if(digit > 9 || digit < 0) throw new IllegalArgumentException();
 
-        if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
+        if(screen.equals("0") || firstValue == Double.parseDouble(screen)) screen = "";
 
         screen = screen + digit;
     }
@@ -45,9 +52,22 @@ public class Calculator {
      * im Ursprungszustand ist.
      */
     public void pressClearKey() {
-        screen = "0";
-        latestOperation = "";
-        latestValue = 0.0;
+        /* ablauf in unserem beispiel:
+        1. 5 +
+        2. clearKey wird gedrückt
+        3. screen = "0", clearKeyToggle = false
+        4. equalsKey wird gedrückt
+        6. zwischenergebnis: 5 */
+
+        if (clearKeyToggle) { // wenn clearKeyToggle wahr
+            screen = "0";
+            clearKeyToggle = false;
+        } else { // wenn clearKeyToggle falsch
+            screen = "0";
+            latestOperation = "";
+            firstValue = 0.0;
+            clearKeyToggle = true;
+        }
     }
 
     /**
@@ -60,7 +80,7 @@ public class Calculator {
      * @param operation "+" für Addition, "-" für Substraktion, "x" für Multiplikation, "/" für Division
      */
     public void pressBinaryOperationKey(String operation)  {
-        latestValue = Double.parseDouble(screen);
+        firstValue = Double.parseDouble(screen);
         latestOperation = operation;
     }
 
@@ -72,7 +92,7 @@ public class Calculator {
      * @param operation "√" für Quadratwurzel, "%" für Prozent, "1/x" für Inversion
      */
     public void pressUnaryOperationKey(String operation) {
-        latestValue = Double.parseDouble(screen);
+        firstValue = Double.parseDouble(screen);
         latestOperation = operation;
         var result = switch(operation) {
             case "√" -> Math.sqrt(Double.parseDouble(screen));
@@ -83,7 +103,6 @@ public class Calculator {
         screen = Double.toString(result);
         if(screen.equals("NaN")) screen = "Error";
         if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
-
     }
 
     /**
@@ -118,14 +137,33 @@ public class Calculator {
      * und das Ergebnis direkt angezeigt.
      */
     public void pressEqualsKey() {
+        /* ablauf in unserem beispiel:
+        1. 3 + 2
+        2. EqualsKey wird gedrückt
+        3. secondValue = 2
+        4. result = firstValue + secondValue = 3 + 2 = 5
+        5. EqualsKey wird nochmal gedrückt
+        6. firstValue = 5
+        7. result = firstValue + secondValue = 5 + 2 = 7... */
+
+        if (secondValue == null) // wenn secondValue noch keinen wert erhalten hat (deswegen null)
+            secondValue = Double.parseDouble(screen); // in unserem beispiel: 2
+        else // wenn secondValue einen wert erhalten hat
+            firstValue = Double.parseDouble(screen); // in unserem beispiel: 3, dann 5, dann 7...
+
+        if (latestOperation == "") // wenn die letzte operation nicht definiert wurde
+            return;
+
         var result = switch(latestOperation) {
-            case "+" -> latestValue + Double.parseDouble(screen);
-            case "-" -> latestValue - Double.parseDouble(screen);
-            case "x" -> latestValue * Double.parseDouble(screen);
-            case "/" -> latestValue / Double.parseDouble(screen);
+            case "+" -> firstValue + secondValue;
+            case "-" -> firstValue - secondValue;
+            case "x" -> firstValue * secondValue;
+            case "/" -> firstValue / secondValue;
             default -> throw new IllegalArgumentException();
         };
+
         screen = Double.toString(result);
+
         if(screen.equals("Infinity")) screen = "Error";
         if(screen.endsWith(".0")) screen = screen.substring(0,screen.length()-2);
         if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);

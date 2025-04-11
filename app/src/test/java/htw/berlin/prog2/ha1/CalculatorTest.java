@@ -90,5 +90,88 @@ class CalculatorTest {
 
 
     //TODO hier weitere Tests erstellen
-}
 
+    // Teilaufgabe 1
+    @Test
+    @DisplayName("should display the multiplication product")
+    void testMultiplication() { /* multiplikation wurde noch nicht getestet, aber funktioniert */
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(3);
+        calc.pressDigitKey(0);
+
+        calc.pressBinaryOperationKey("x");
+
+        calc.pressDigitKey(2);
+
+        calc.pressEqualsKey();
+
+        String expected = "60";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+    // Teilufgabe 2
+    @Test
+    @DisplayName("should continue applying the operator when pressing the EqualsKey")
+    void testEqualsKey() { /* Ausgabe vor dem Fix: 8 */
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(3);
+
+        calc.pressBinaryOperationKey("+");
+
+        calc.pressDigitKey(2);
+
+        calc.pressEqualsKey();
+        calc.pressEqualsKey();
+
+        String expected = "7";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("should turn positive number to negative and vice versa")
+    void testNegativeKey() { /* ausgabe vor dem fix: IllegalArgumentException */
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(2);
+        calc.pressDigitKey(0);
+
+        calc.pressNegativeKey();
+        calc.pressNegativeKey();
+
+        calc.pressEqualsKey(); // <- würde ohne diese zeile direkt funktionieren, deswegen dritter test
+
+        String expected = "20";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+    //               ANMERKUNG:
+    // ich habe einen dritten roten test hinzugefügt,
+    // weil die lösung zu den anderen unerwartet in der gleichen methode lag.
+    @Test
+    @DisplayName("should keep the last values when pressing the clearKey once")
+    void testClearKey() { /* ausgabe vor dem fix: 0 */
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(5);
+
+        calc.pressBinaryOperationKey("+");
+
+        calc.pressClearKey();
+        // calc.pressClearKey();
+
+        calc.pressEqualsKey();
+
+        String expected = "5";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+}
