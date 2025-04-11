@@ -94,7 +94,7 @@ class CalculatorTest {
     // Teilaufgabe 1
     @Test
     @DisplayName("should display the multiplication product")
-    void testMultiplication() {
+    void testMultiplication() { /* Multiplikation wurde noch nicht getestet, aber funktioniert */
         Calculator calc = new Calculator();
 
         calc.pressDigitKey(3);
@@ -115,7 +115,7 @@ class CalculatorTest {
     // Teilufgabe 2
     @Test
     @DisplayName("should continue applying the operator when pressing the EqualsKey")
-    void testEqualsKey() {
+    void testEqualsKey() { /* Ausgabe vor dem Fix: 8 */
         Calculator calc = new Calculator();
 
         calc.pressDigitKey(3);
@@ -135,7 +135,7 @@ class CalculatorTest {
 
     @Test
     @DisplayName("should turn positive number to negative and vice versa")
-    void testNegativeKey() {
+    void testNegativeKey() { /* Ausgabe vor dem Fix: IllegalArgumentException */
         Calculator calc = new Calculator();
 
         calc.pressDigitKey(2);
@@ -151,6 +151,5 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
-
 
 }
