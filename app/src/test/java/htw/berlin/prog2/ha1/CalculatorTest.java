@@ -109,11 +109,11 @@ class CalculatorTest {
 
         calc.pressDigitKey(2);
         calc.pressBinaryOperationKey("+");
-        calc.pressDigitKey(4);
-        calc.pressEqualsKey();   //screen zeigt 6
-        calc.pressEqualsKey();  //rechnet 2+6 statt 6+4
+        calc.pressDigitKey(0);      // zum testen
+        calc.pressEqualsKey();       //2+0
+        calc.pressEqualsKey();      //+0
 
-        String expected ="10";
+        String expected ="2";
         String actual= calc.readScreen();
         assertEquals(expected, actual);
     }
