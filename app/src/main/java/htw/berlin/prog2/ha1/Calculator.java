@@ -13,6 +13,7 @@ public class Calculator {
     private double latestValue;
     private double Zwischenspeicher;
     private boolean ersteBerechnung =true;
+    private int clears;
 
     private String latestOperation = "";
 
@@ -36,6 +37,7 @@ public class Calculator {
         if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
 
         screen = screen + digit;
+        clears=0;
     }
 
     /**
@@ -47,9 +49,19 @@ public class Calculator {
      * im Ursprungszustand ist.
      */
     public void pressClearKey() {
-        screen = "0";
-        latestOperation = "";
-        latestValue = 0.0;
+        if(clears==0){
+            screen = "0";
+            clears++;
+            return;
+        }else{
+            screen ="0";
+            latestOperation = "";
+            latestValue = 0.0;
+            clears=0;
+            Zwischenspeicher=0.0;
+            ersteBerechnung=true;
+        }
+
     }
 
     /**
@@ -65,6 +77,7 @@ public class Calculator {
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
         ersteBerechnung=true;
+        clears=0;
     }
 
     /**
@@ -86,6 +99,7 @@ public class Calculator {
         screen = Double.toString(result);
         if(screen.equals("NaN")) screen = "Error";
         if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
+        clears=0;
 
     }
 
@@ -98,6 +112,7 @@ public class Calculator {
      */
     public void pressDotKey() {
         if(!screen.contains(".")) screen = screen + ".";
+        clears=0;
     }
 
     /**
@@ -109,6 +124,7 @@ public class Calculator {
      */
     public void pressNegativeKey() {
         screen = screen.startsWith("-") ? screen.substring(1) : "-" + screen;
+        clears=0;
     }
 
     /**
@@ -139,5 +155,6 @@ public class Calculator {
         if(screen.endsWith(".0")) screen = screen.substring(0,screen.length()-2);
         if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
         latestValue=result;
+        clears=0;
     }
 }

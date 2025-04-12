@@ -125,11 +125,14 @@ class CalculatorTest {
         calc.pressDigitKey(2);
         calc.pressBinaryOperationKey("+");
         calc.pressDigitKey(3);
-        calc.pressClearKey(); //löscht alles statt nur die 3
+        calc.pressClearKey();
+        calc.pressClearKey();   //komplett zurücksetzten
         calc.pressDigitKey(8);
+        calc.pressBinaryOperationKey("-");
+        calc.pressDigitKey(7);
         calc.pressEqualsKey();
 
-        String expected ="10";
+        String expected ="1";
         String actual = calc.readScreen();
         assertEquals(expected,actual);
    }
