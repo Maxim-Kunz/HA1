@@ -52,7 +52,6 @@ public class Calculator {
         if(clears==0){
             screen = "0";
             clears++;
-            return;
         }else{
             screen ="0";
             latestOperation = "";

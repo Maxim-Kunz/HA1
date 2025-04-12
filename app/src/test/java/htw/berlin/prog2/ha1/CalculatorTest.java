@@ -130,9 +130,11 @@ class CalculatorTest {
         calc.pressDigitKey(8);
         calc.pressBinaryOperationKey("-");
         calc.pressDigitKey(7);
+        calc.pressClearKey();
+        calc.pressDigitKey(6);
         calc.pressEqualsKey();
 
-        String expected ="1";
+        String expected ="2";
         String actual = calc.readScreen();
         assertEquals(expected,actual);
    }
