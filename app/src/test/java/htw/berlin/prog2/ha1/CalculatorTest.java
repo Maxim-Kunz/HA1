@@ -87,6 +87,21 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
+    @Test
+    @DisplayName("sollte Subtraktion erlauben")
+    void testSubtraktion() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(9);
+        calc.pressBinaryOperationKey("-");
+        calc.pressDigitKey(9);
+        calc.pressEqualsKey();
+
+        String expected ="0";
+        String actual =calc.readScreen();
+
+        assertEquals(expected,actual);
+    }
 
 
     //TODO hier weitere Tests erstellen
