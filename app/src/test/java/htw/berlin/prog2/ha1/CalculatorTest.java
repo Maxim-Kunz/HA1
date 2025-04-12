@@ -102,7 +102,37 @@ class CalculatorTest {
 
         assertEquals(expected,actual);
     }
+    @Test
+    @DisplayName("sollte mehrfaches addieren erlauben")
+    void testMehrfachesaddieren(){
+        Calculator calc = new Calculator();
 
+        calc.pressDigitKey(2);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(4);
+        calc.pressEqualsKey();   //screen zeigt 6
+        calc.pressEqualsKey();  //rechnet 2+6 statt 6+4
+
+        String expected ="10";
+        String actual= calc.readScreen();
+        assertEquals(expected, actual);
+    }
+    @Test
+    @DisplayName("sollte einmal clear richtig verwenden")
+    void testClear(){
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(2);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(3);
+        calc.pressClearKey(); //löscht alles statt nur die 3
+        calc.pressDigitKey(8);
+        calc.pressEqualsKey();
+
+        String expected ="10";
+        String actual = calc.readScreen();
+        assertEquals(expected,actual);
+   }
 
     //TODO hier weitere Tests erstellen
 }
